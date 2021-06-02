@@ -34,6 +34,11 @@ namespace EnglishKids.ChallengeGame
             }
         }
 
+        public void ForcePlay(string name)
+        {
+            Array.Find(sounds, sound => sound.name == name).audioSource.Play();
+        }
+
         public void Stop(string name)
         {
             Array.Find(sounds, sound => sound.name == name).audioSource.Stop();

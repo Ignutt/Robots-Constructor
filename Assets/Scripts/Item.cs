@@ -26,6 +26,7 @@ namespace EnglishKids.ChallengeGame
         private CanvasGroup _canvasGroup;
         private RectTransform _rect;
         private Tape _tape;
+        private Canvas _canvas;
 
         private Vector2 _firstPosition;
         private Vector3 _firstRotation;
@@ -38,6 +39,8 @@ namespace EnglishKids.ChallengeGame
             _rect = GetComponent<RectTransform>();
             _tape = transform.parent.GetComponent<Tape>();
             _canvasGroup = GetComponent<CanvasGroup>();
+
+            _canvas = GameObject.FindWithTag("Canvas").GetComponent<Canvas>();
 
             _firstPosition = _rect.anchoredPosition;
             _firstRotation = _rect.rotation.eulerAngles;
@@ -71,7 +74,7 @@ namespace EnglishKids.ChallengeGame
 
         public void OnDrag(PointerEventData eventData)
         {
-            _rect.anchoredPosition += eventData.delta; // canvas.scaleFactor;
+            _rect.anchoredPosition += eventData.delta / _canvas.scaleFactor; // canvas.scaleFactor;
         }
 
         private void SetToDefaultPosition()

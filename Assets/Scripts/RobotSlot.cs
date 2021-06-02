@@ -43,6 +43,8 @@ namespace EnglishKids.ChallengeGame
         {
             if (item.partNumber == partNumber && item.typeRobot == typeRobot)
             {
+                GetComponent<RectTransform>().localScale = Vector3.one;
+                
                 item.GetComponent<RectTransform>().anchoredPosition =
                     GetComponent<RectTransform>().anchoredPosition;
                 GetComponent<Image>().color = Color.white;

@@ -8,7 +8,10 @@ namespace EnglishKids.ChallengeGame
 {
     public class Tape : MonoBehaviour
     {
-        [Header("Prefabs parts of robot")] public GameObject[] partsOfRobots;
+        [Header("Prefabs parts of robot")] 
+        public GameObject[] partsOfRobots;
+
+        [Header("Mask of tape")] public GameObject mask;
 
         [Header("Points in tape")] public List<Transform> spawns;
 
@@ -18,18 +21,22 @@ namespace EnglishKids.ChallengeGame
         [Header("Parts properties")] public int partsCount = 9;
         public int partsInTheFact = 0;
 
-        [Header("Result screen")] public GameObject resultWindow;
+        [Header("Result screen")] 
+        public GameObject resultWindow;
 
         private bool _move = true;
         private RectTransform _rectTransform;
         private Vector2 _startPosition;
+        private SoundManager _soundManager;
 
         private void Start()
         {
+            _soundManager = GameObject.FindWithTag("MainCamera").GetComponent<SoundManager>();
             _rectTransform = GetComponent<RectTransform>();
             _startPosition = GetComponent<RectTransform>().anchoredPosition;
             GenerateContent();
             partsInTheFact = 5;
+            _soundManager.Play("StartTape");
         }
 
         private void Update()
@@ -46,13 +53,21 @@ namespace EnglishKids.ChallengeGame
             partsCount--;
             if (partsInTheFact == 0)
             {
-                MoveToNextParts();
-                _startPosition = _rectTransform.anchoredPosition;
+                StartMoving();
             }
             else if (partsCount == 0)
             {
                 resultWindow.SetActive(true);
             }
+        }
+
+        private void StartMoving()
+        {
+            MoveToNextParts();
+            _soundManager.ForcePlay("StartTape");
+            _startPosition = _rectTransform.anchoredPosition;
+            _move = true;
+            mask.SetActive(true);
         }
 
         private void MoveToNextParts()
@@ -61,6 +76,12 @@ namespace EnglishKids.ChallengeGame
                 _rectTransform.anchoredPosition,
                 _startPosition + Vector2.up * stepLength,
                 Time.deltaTime * speedMoving);
+
+            if (_rectTransform.anchoredPosition == _startPosition + Vector2.up * stepLength)
+            {
+                _move = false;
+                mask.SetActive(false);
+            }
         }
 
         private void GenerateContent()

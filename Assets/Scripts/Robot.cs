@@ -31,8 +31,8 @@ namespace EnglishKids.ChallengeGame
 
         private void PlayAnimation()
         {
-            GameObject newAnim = Instantiate(animation);
-            newAnim.transform.position = new Vector2(transform.position.x, transform.position.y - 2.5f);
+            GameObject newAnim = Instantiate(animation, transform.parent);
+            newAnim.transform.position = new Vector2(transform.position.x, transform.position.y - 3.25f);
             
             gameObject.SetActive(false);
         }
